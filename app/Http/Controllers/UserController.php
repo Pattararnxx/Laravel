@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Reg;
 
 class UserController extends Controller
 {
@@ -19,20 +20,20 @@ class UserController extends Controller
             return view('users.login');
         }
 
-        // $user_regs = \DB::table('regs')
-        //     ->join('users', 'regs.user_id', '=', 'users.id')
-        //     ->join('courses', 'regs.course_id', '=', 'courses.id')
-        //     ->select('regs.*','users.name', 'courses.*')
-        //     ->where('users.id', $user->id)
-        //     ->get();
+        $user_regs = \DB::table('regs')
+            ->join('users', 'regs.user_id', '=', 'users.id')
+            ->join('courses', 'regs.course_id', '=', 'courses.id')
+            ->select('regs.*','users.name', 'courses.*')
+            ->where('users.id', $user->id)
+            ->get();
 
-        // $urs = Reg::with(['user', 'course'])->where('user_id', $user->id)->get();
+        // $user_regs = Reg::with(['user', 'course'])->where('user_id', $user->id)->get();
 
-        // foreach($urs as $reg) {
-        //     echo $reg->user->name . ' - ' . $reg->course->topic . '<br>';
+        // foreach ($user_regs as $ur) {
+        //     echo $ur->user->name . ' - ' . $ur->course->title . '<br>';
         // }
 
-        return view('users.index' , compact('user'));
+        return view('users.index' , compact('user','user_regs'));
 
     }
 
